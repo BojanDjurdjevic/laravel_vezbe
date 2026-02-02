@@ -1,14 +1,9 @@
 <?php
 
 use App\Http\Controllers\ContactController;
+use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ShopController;
 use Illuminate\Support\Facades\Route;
-
-Route::get('/', function () {
-    return view('welcome');
-});
-
-Route::get("/contact", [ContactController::class, 'index']); // čisto da prikažem i ovaj način
 
 Route::get("/about", function() {
     return view('about', [
@@ -16,5 +11,11 @@ Route::get("/about", function() {
         'prezime' => 'Đurđević'
     ]);
 });
+
+Route::get('/', [HomeController::class, 'index']);
+
+Route::get("/contact", [ContactController::class, 'index']); 
+
+
 
 Route::get('/shop', [ShopController::class, 'index']);

@@ -7,9 +7,15 @@
 
     <div class="bg-white rounded-lg shadow-md p-6 space-y-3">
         <h3 class="text-xl font-semibold text-gray-800">Proizvodi:</h3>
-        <p class="text-gray-700">{{ $proizvod1 }}</p>
-        <p class="text-gray-700">{{ $proizvod2 }}</p>
-        <p class="text-gray-700">{{ $proizvod3 }}</p>
+        @foreach ($products as $product)
+            @if ( in_array($product, ['iPhone 13 pro', 'iPhone 14']))
+                <p class="text-gray-700">{{ $product }} - SUPER SNIŽENJE</p>
+            @else <p class="text-gray-700">{{ $product }}</p>
+            
+            @endif
+            
+        @endforeach
+
     </div>
 </div>
 @endsection

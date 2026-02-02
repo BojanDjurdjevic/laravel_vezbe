@@ -4,6 +4,13 @@
 @section('sadrzaj')
 <div class="space-y-4 text-center">
     <h1 class="text-4xl font-bold text-indigo-600">Ovo je glavna stranica</h1>
-    <p class="text-gray-700 text-lg">Trenutno vreme je <span class="font-mono">{{ now()->format('H:i:s') }}</span></p>
+
+    @if ($hour > 0 && $hour <= 12)
+        <p class="text-gray-900 text-lg">Dobro jutro!</p>
+    @else 
+        <p class="text-gray-900 text-lg">Dobar dan!</p>
+    @endif
+    <p class="text-gray-700 text-lg">Trenutno vreme je <span class="font-mono">{{ $currentTime }}</span></p>
+    <p class="text-gray-700 text-lg">Trenutno je <span class="font-mono">{{ $hour }} sati.</span></p>
 </div>
 @endsection

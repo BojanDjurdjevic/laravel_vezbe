@@ -9,10 +9,9 @@ class ShopController extends Controller
 {
     public function index() 
     {
-        return view('shop', [
-            'proizvod1' => 'Knjiga',
-            'proizvod2' => 'Laptop',
-            'proizvod3' => 'Automobil'
-        ]);
+        $products = [
+            "iPhone 14", "Samsung A52s", "Samsung A30", "iPhone 13 pro", "Huawei 80 pro"
+        ];
+        return view('shop', compact('products'));
     }
 }
