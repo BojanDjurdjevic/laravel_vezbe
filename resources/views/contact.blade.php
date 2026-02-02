@@ -1,5 +1,12 @@
-@include('navigation')
+@extends('layout')
+@section('title') Contact @endsection
 
-<h1>Hey ovo je contact stranica</h1>
+@section('sadrzaj')
+<h1>Ovo je contact stranica</h1>
 
-@include('footer')
+<form action="">
+    <input type="email" placeholder="Unesite vaš email">
+    <input type="text" placeholder="Unesite naslov email-a">
+    <textarea name="" id="" placeholder="Unesite tekst poruke"></textarea>
+</form>
+@endsection

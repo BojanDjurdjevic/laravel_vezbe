@@ -1,7 +1,8 @@
-@include('navigation')
+@extends('layout')
+@section('title') About @endsection
 
+@section('sadrzaj')
 <h1>Ovo je ABOUT page</h1>
 
 <p>A moje ime je: {{ $ime }} {{ $prezime }} </p>
-
-@include('footer')
+@endsection

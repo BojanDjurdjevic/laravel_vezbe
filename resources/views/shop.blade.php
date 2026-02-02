@@ -1,5 +1,7 @@
-@include('navigation')
+@extends('layout')
+@section('title') Shop @endsection
 
+@section('sadrzaj')
 <h1>Shop stranica</h1>
 
 <div>
@@ -8,5 +10,4 @@
     <p>{{ $proizvod2 }}</p>
     <p>{{ $proizvod3 }}</p>
 </div>
-
-@include('footer')
+@endsection
