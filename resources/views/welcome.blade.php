@@ -2,8 +2,8 @@
 @section('title') Home @endsection
 
 @section('sadrzaj')
-<h1>Ovo je glavna stranica</h1>
-
-<p>Trenutno vreme je {{ now()->format('H:i:s') }}</p> 
-{{-- Može i ovako date('H:i:s') --}}
+<div class="space-y-4 text-center">
+    <h1 class="text-4xl font-bold text-indigo-600">Ovo je glavna stranica</h1>
+    <p class="text-gray-700 text-lg">Trenutno vreme je <span class="font-mono">{{ now()->format('H:i:s') }}</span></p>
+</div>
 @endsection

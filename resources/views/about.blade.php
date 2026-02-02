@@ -2,7 +2,8 @@
 @section('title') About @endsection
 
 @section('sadrzaj')
-<h1>Ovo je ABOUT page</h1>
-
-<p>A moje ime je: {{ $ime }} {{ $prezime }} </p>
+<div class="space-y-4 text-center">
+    <h1 class="text-3xl font-bold text-indigo-600">Ovo je ABOUT page</h1>
+    <p class="text-gray-700 text-lg">A moje ime je: <span class="font-semibold">{{ $ime }} {{ $prezime }}</span></p>
+</div>
 @endsection
