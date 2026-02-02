@@ -2,7 +2,7 @@
 @section('title') Contact @endsection
 
 @section('sadrzaj')
-<p class="text-red-500 font-bold text-xl">Ako ovo vidiš crveno, Tailwind radi!</p>
+
 <div class="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50 p-4">
     <div class="w-full max-w-md bg-white rounded-2xl shadow-xl p-8">
         <!-- Header -->
