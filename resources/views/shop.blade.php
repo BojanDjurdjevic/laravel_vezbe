@@ -1,3 +1,5 @@
+@include('navigation')
+
 <h1>Shop stranica</h1>
 
 <div>
@@ -6,3 +8,5 @@
     <p>{{ $proizvod2 }}</p>
     <p>{{ $proizvod3 }}</p>
 </div>
+
+@include('footer')
