@@ -8,9 +8,20 @@
     <div class="bg-white rounded-lg shadow-md p-6 space-y-3">
         <h3 class="text-xl font-semibold text-gray-800">Proizvodi:</h3>
         @foreach ($products as $product)
-            @if ( in_array($product, ['iPhone 13 pro', 'iPhone 14']))
-                <p class="text-gray-700">{{ $product }} - SUPER SNIŽENJE</p>
-            @else <p class="text-gray-700">{{ $product }}</p>
+            @if ( in_array($product, ['Šahovske završnice']))
+                <div class="shadow-md p-6" >
+                    <p class="text-gray-700">{{ $product->name }} - SUPER SNIŽENJE</p>
+                    <p class="text-gray-700">{{ $product->description }}</p>
+                    <p class="text-gray-700">Cena: {{ $product->price }} din</p>
+                </div>
+                
+            @else 
+
+            <div class="shadow-md p-6" >
+                <p class="text-gray-700">{{ $product->name }}</p>
+                <p class="text-gray-700">{{ $product->description }}</p>
+                <p class="text-gray-700">Cena: {{ $product->price }} din</p>
+            </div>
             
             @endif
             

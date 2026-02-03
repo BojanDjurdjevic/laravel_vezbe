@@ -16,6 +16,6 @@ Route::get('/', [HomeController::class, 'index']);
 
 Route::get("/contact", [ContactController::class, 'index']); 
 
-
-
 Route::get('/shop', [ShopController::class, 'index']);
+
+Route::get('/admin/all-contacts', [ContactController::class, 'adminContacts']);

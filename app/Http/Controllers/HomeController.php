@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
+use App\Models\ProductModel;
 use Illuminate\Http\Request;
 
 use function Symfony\Component\Clock\now;
@@ -13,14 +14,12 @@ class HomeController extends Controller
     {
         $currentTime = now()->format("H:i:s");
         $hour = date("H");
-        //dd($hour); // var_dump + die();
-        /* //MOže i ovako
-        return view('welcome', [
-            'time' => $currentTime
-        ]);
+        $products = ProductModel::orderBy('id', 'desc')
+        ->take(6)
+        ->get()
+        ;
 
-        */
-        return view('welcome', @compact('currentTime', 'hour'));
+        return view('welcome', @compact('currentTime', 'hour', 'products'));
         
     }
 }
