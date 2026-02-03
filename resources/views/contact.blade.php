@@ -9,25 +9,30 @@
         <h1 class="text-3xl font-extrabold text-indigo-700 mb-6 text-center">Kontaktirajte nas</h1>
 
         <!-- Form -->
-        <form action="" class="space-y-5">
+        <form method="POST" action="/send-contact" class="space-y-5">
+            @if ($errors->any())
+                <p class="text-red-700">Greška: {{ $errors->first() }}</p>
+            @endif
+
+            @csrf
             <!-- Email -->
             <div>
                 <label class="block text-gray-700 font-medium mb-2" for="email">Email</label>
-                <input type="email" id="email" placeholder="Unesite vaš email"
+                <input type="email" name="email" id="email" placeholder="Unesite vaš email"
                        class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-400 focus:border-indigo-400 transition">
             </div>
 
             <!-- Naslov -->
             <div>
                 <label class="block text-gray-700 font-medium mb-2" for="subject">Naslov</label>
-                <input type="text" id="subject" placeholder="Unesite naslov email-a"
+                <input type="text" name="subject" id="subject" placeholder="Unesite naslov email-a"
                        class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-400 focus:border-indigo-400 transition">
             </div>
 
             <!-- Poruka -->
             <div>
                 <label class="block text-gray-700 font-medium mb-2" for="message">Poruka</label>
-                <textarea id="message" placeholder="Unesite tekst poruke" rows="5"
+                <textarea name="message" id="message" placeholder="Unesite tekst poruke" rows="5"
                           class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-400 focus:border-indigo-400 resize-none transition"></textarea>
             </div>
 
