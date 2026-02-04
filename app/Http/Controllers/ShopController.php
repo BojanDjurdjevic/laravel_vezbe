@@ -32,7 +32,7 @@ class ShopController extends Controller
             'description' => 'required|string|min:5',
             'amount' => 'required|numeric',
             'price' => 'required|string',
-            'image' => ''
+            'image' => 'reqired|string'
         ]);
 
         ProductModel::create([
