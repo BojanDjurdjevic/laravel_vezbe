@@ -11,7 +11,7 @@
             <div class="shadow-md p-6" >
                 <p class="text-gray-700">ID: {{ $product->id }} | {{ $product->name }}</p>
                 <p class="text-gray-700">{{ $product->description }}</p>
-                <p class="text-red-700">Cena: {{ $product->price }} din</p>
+                <p class="text-red-700">Cena: {{ number_format($product->price, 2) }} din</p>
                 <div class="mt-3 p-1 flex justify-around">
                     <form action="{{ route('admin.product.delete', $product->id) }}" method="POST"
                         onsubmit="return confirm('Da li ste siurni da želite da obrišete proizvod?')"

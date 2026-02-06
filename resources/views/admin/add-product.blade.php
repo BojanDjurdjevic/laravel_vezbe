@@ -39,7 +39,7 @@
             <!-- Cena -->
             <div>
                 <label class="block text-gray-700 font-medium mb-2" for="price">Cena</label>
-                <input type="text" name="price" id="price" placeholder="Unesite cenu" rows="5"
+                <input type="text" step="any" name="price" id="price" placeholder="Unesite cenu" rows="5"
                           class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-400 focus:border-indigo-400 resize-none transition" />
             </div>
 

@@ -31,7 +31,7 @@ class ShopController extends Controller
             'name' => 'required|string|min:3',
             'description' => 'required|string|min:5',
             'amount' => 'required|numeric',
-            'price' => 'required|string',
+            'price' => 'required|decimal:2|min:0.01',
             'image' => 'reqired|string'
         ]);
 
