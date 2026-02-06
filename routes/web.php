@@ -28,7 +28,7 @@ Route::get('/admin/all-products', [ProductsController::class, 'index']);
 Route::get('/admin/products', [ShopController::class, 'showProducts'])->name('admin.products');
 Route::get('/admin/add-product', [ShopController::class, 'productForm']);
 Route::post('send-product', [ShopController::class, 'addProduct']);
-Route::get('admin/edit-product/{product}', [ProductsController::class, 'edit'])->name('admin.product.edit');
+Route::get('admin/edit-product/{product}', [ProductsController::class, 'editPrepare'])->name('admin.product.editPrepare');
 Route::put('admin/update-product', [ProductsController::class, 'update'])->name('admin.product.update');
 
 Route::delete("/admin/delete-product/{product}", [ProductsController::class, 'delete'])->name('admin.product.delete');

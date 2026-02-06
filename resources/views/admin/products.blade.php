@@ -22,7 +22,7 @@
                             class="w-25 bg-red-600 hover:bg-red-800 rounded-md text-white p-1"
                         >Obriši</button>
                     </form>
-                    <form action="{{ route('admin.product.edit', $product) }}" method="GET">
+                    <form action="{{ route('admin.product.editPrepare', $product) }}" method="GET">
                         @csrf
                         <button class="w-25 bg-indigo-600 hover:bg-indigo-800 rounded-md text-white p-1">Edituj</button>
                     </form>

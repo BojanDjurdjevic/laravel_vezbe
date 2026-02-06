@@ -15,8 +15,9 @@ class ProductsController extends Controller
         return view('admin.products', compact('products'));
     }
 
-    public function edit(ProductModel $product)
+    public function editPrepare(ProductModel $product)
     {
+        if($product === null) return die('Ovaj proizvod ne postoji!');
         return view('admin.edit-product', compact('product'));
     }
 
@@ -30,8 +31,15 @@ class ProductsController extends Controller
             'image' => 'nullable|image|mimes:jpg,jpeg,png,webp|max:2048',
         ]);
 
-        //ovde je neki bug
-        $product->update($validated);
+        //ovde je neki bug:
+        //$product->update($validated); // ne radi, izgleda samo na masivna ažuriranja, ako sam dobro skontao iz dokumentacije
+        // a možda neće i zato što ne vidi promenu slike
+
+        $product->name = $request->get('name');
+        $product->description = $request->get('description');
+        $product->amount = $request->get('amount');
+        $product->price = $request->get('price');
+        $product->save();
 
         return redirect()->route('admin.products');
     }
