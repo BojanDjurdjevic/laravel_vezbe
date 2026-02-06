@@ -28,9 +28,9 @@ class ShopController extends Controller
     public function addProduct(Request $request) 
     {
         $validated = $request->validate([
-            'name' => 'required|string|min:3',
+            'name' => 'required|string|min:3|unique:products',
             'description' => 'required|string|min:5',
-            'amount' => 'required|numeric',
+            'amount' => 'required|int|min:0',
             'price' => 'required|decimal:2|min:0.01',
             'image' => 'nullable|image|mimes:jpg,jpeg,png,webp|max:2048',
 

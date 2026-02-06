@@ -19,35 +19,43 @@
             <div>
                 <label class="block text-gray-700 font-medium mb-2" for="name">Naziv</label>
                 <input type="text" name="name" id="name" placeholder="Unesite naziv proizvoda"
-                       class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-400 focus:border-indigo-400 transition">
+                       class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-400 focus:border-indigo-400 transition"
+                    value="{{ old('name') }}" />
             </div>
 
             <!-- Opis -->
             <div>
                 <label class="block text-gray-700 font-medium mb-2" for="description">Opis</label>
                 <input type="text" name="description" id="description" placeholder="Unesite opis proizvoda"
-                       class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-400 focus:border-indigo-400 transition">
+                       class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-400 focus:border-indigo-400 transition"
+                    value="{{ old('description') }}"   />
             </div>
 
             <!-- Stanje -->
             <div>
                 <label class="block text-gray-700 font-medium mb-2" for="amount">Količina</label>
                 <input type="number" name="amount" id="amount" placeholder="Unesite količinu" rows="5"
-                          class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-400 focus:border-indigo-400 resize-none transition" />
+                    class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 
+                    focus:ring-indigo-400 focus:border-indigo-400 resize-none transition" 
+                    value="{{ old('amount') }}" />
             </div>
 
             <!-- Cena -->
             <div>
                 <label class="block text-gray-700 font-medium mb-2" for="price">Cena</label>
                 <input type="text" step="any" name="price" id="price" placeholder="Unesite cenu" rows="5"
-                          class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-400 focus:border-indigo-400 resize-none transition" />
+                class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 
+                focus:ring-indigo-400 focus:border-indigo-400 resize-none transition" 
+                value="{{ old('price') }}" />
             </div>
 
-             <!-- Cena -->
+             <!-- Slika -->
             <div>
                 <label class="block text-gray-700 font-medium mb-2" for="img">Slika</label>
-                <input type="file" name="img" id="img" placeholder="Unesite cenu" rows="5"
-                          class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-400 focus:border-indigo-400 resize-none transition" />
+                <input type="file" name="image" id="img" placeholder="Unesite cenu" rows="5"
+                class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none 
+                focus:ring-2 focus:ring-indigo-400 focus:border-indigo-400 resize-none transition" 
+                value="{{ old('image') }}"/>
             </div>
 
             <!-- Dugme -->
