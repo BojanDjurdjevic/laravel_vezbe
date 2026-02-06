@@ -27,21 +27,16 @@ class ShopController extends Controller
 
     public function addProduct(Request $request) 
     {
-        $request->validate([
+        $validated = $request->validate([
             'name' => 'required|string|min:3',
             'description' => 'required|string|min:5',
             'amount' => 'required|numeric',
             'price' => 'required|decimal:2|min:0.01',
-            'image' => 'reqired|string'
+            'image' => 'nullable|image|mimes:jpg,jpeg,png,webp|max:2048',
+
         ]);
 
-        ProductModel::create([
-            'name' => $request->get('name'),
-            'description' => $request->get('description'),
-            'amount' => (int)$request->get('amount'),
-            'price' => (float)$request->get('price'),
-            'image' => ''
-        ]);
+        ProductModel::create($validated);
 
         return redirect('/admin/products');
     }
