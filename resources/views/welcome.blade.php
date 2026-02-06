@@ -1,5 +1,5 @@
 @extends('layout')
-@section('title') Home @endsection
+@section('title') Dashboard @endsection
 
 @section('sadrzaj')
 <div class="space-y-4 text-center">
