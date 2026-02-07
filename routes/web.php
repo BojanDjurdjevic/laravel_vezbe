@@ -28,22 +28,29 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
-require __DIR__.'/auth.php';
-
 Route::get("/contact", [ContactController::class, 'index']); 
 
 Route::get('/shop', [ShopController::class, 'index']);
 
-Route::post("/send-contact",[ ContactController::class, 'sendContact']);
+Route::post("/send-contact",[ ContactController::class, 'sendContact'])->name('send.contact');
 
-Route::get('/admin/all-contacts', [ContactController::class, 'adminContacts']);
-Route::delete("admin/delete-contact/{contact}", [ContactController::class, 'delete'])->name('admin.contact.delete');
+Route::middleware('auth')->prefix('admin')->group(function() {
+    Route::get('/all-contacts', [ContactController::class, 'adminContacts']);
+    Route::delete("/delete-contact/{contact}", [ContactController::class, 'delete'])
+        ->name('admin.contact.delete');
 
-Route::get('/admin/all-products', [ProductsController::class, 'index']);
-Route::get('/admin/products', [ShopController::class, 'showProducts'])->name('admin.products');
-Route::get('/admin/add-product', [ShopController::class, 'productForm']);
-Route::post('send-product', [ShopController::class, 'addProduct']);
-Route::get('admin/edit-product/{product}', [ProductsController::class, 'editPrepare'])->name('admin.product.editPrepare');
-Route::put('admin/update-product', [ProductsController::class, 'update'])->name('admin.product.update');
+    Route::get('/all-products', [ProductsController::class, 'index'])
+        ->name('admin.all-products');
+    Route::get('/products', [ShopController::class, 'showProducts'])
+        ->name('admin.products');
+    Route::get('/add-product', [ShopController::class, 'productForm']);
+    Route::post('/send-product', [ShopController::class, 'addProduct'])->name('admin.send.product');
+    Route::get('/edit-product/{product}', [ProductsController::class, 'editPrepare'])
+        ->name('admin.product.editPrepare');
+    Route::put('/update-product', [ProductsController::class, 'update'])
+        ->name('admin.product.update');
+    Route::delete("/delete-product/{product}", [ProductsController::class, 'delete'])
+        ->name('admin.product.delete');
+});
 
-Route::delete("/admin/delete-product/{product}", [ProductsController::class, 'delete'])->name('admin.product.delete');
+require __DIR__.'/auth.php';
