@@ -5,6 +5,7 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ProductsController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ShopController;
+use App\Http\Middleware\AdminCheckMiddleware;
 use Illuminate\Support\Facades\Route;
 
 Route::get("/about", function() {
@@ -34,7 +35,7 @@ Route::get('/shop', [ShopController::class, 'index']);
 
 Route::post("/send-contact",[ ContactController::class, 'sendContact'])->name('send.contact');
 
-Route::middleware('auth')->prefix('admin')->group(function() {
+Route::middleware(["auth", AdminCheckMiddleware::class])->prefix('admin')->group(function() {
     Route::get('/all-contacts', [ContactController::class, 'adminContacts']);
     Route::delete("/delete-contact/{contact}", [ContactController::class, 'delete'])
         ->name('admin.contact.delete');
