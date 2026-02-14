@@ -26,6 +26,11 @@ class ProductsController extends Controller
         return view('admin.products', compact('products'));
     }
 
+    public function productForm()
+    {
+        return view('admin.add-product');
+    }
+
     public function addProduct(SaveProductRequest $request) 
     {
         $this->productRepo->create($request);
@@ -41,7 +46,8 @@ class ProductsController extends Controller
 
     public function update(UpdateProductRequest $request, ProductModel $product)
     {
-        $this->productRepo->update($request, $product);
+        
+        $this->productRepo->update($request->validated(), $product);
 
         return redirect()->route('admin.products');
     }

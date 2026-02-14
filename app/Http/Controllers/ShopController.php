@@ -20,11 +20,6 @@ class ShopController extends Controller
         return view('admin.products', compact('products'));
     }
 
-    public function productForm()
-    {
-        return view('admin.add-product');
-    }
-
     public function addProduct(Request $request) 
     {
         $validated = $request->validate([

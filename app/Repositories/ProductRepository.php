@@ -39,13 +39,15 @@ class ProductRepository
         ]);
     }
 
-    public function update($request, $product)
+    public function update($data, $product)
     {
+        /*
         $product->name = $request->get('name');
         $product->description = $request->get('description');
         $product->amount = $request->get('amount');
         $product->price = $request->get('price');
-        $product->save();
+        $product->save(); */
+        $product->update($data);
     }
 
     public function delete($product)

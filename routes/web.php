@@ -41,10 +41,10 @@ Route::controller(ContactController::class)->group(function() {
 Route::get('/shop', [ShopController::class, 'index']);
 
 Route::middleware(["auth", AdminCheckMiddleware::class])->prefix('admin')->group(function() {
-    Route::controller(ContactController::class)->prefix('contact')->group(function() {
-        Route::get('/all', 'adminContacts')->name('all-contacts');
+    Route::controller(ContactController::class)->prefix('contact')->name('contact.')->group(function() {
+        Route::get('/all', 'adminContacts')->name('all');
         Route::delete("/delete/{contact}", 'delete')
-            ->name('admin.contact.delete');
+            ->name('delete');
     });
     
     Route::controller(ShopController::class)->group(function() {
@@ -52,17 +52,17 @@ Route::middleware(["auth", AdminCheckMiddleware::class])->prefix('admin')->group
             ->name('admin.products');
     });
     
-    Route::controller(ProductsController::class)->prefix('product')->group(function() {
+    Route::controller(ProductsController::class)->prefix('product')->name('admin.product.')->group(function() {
         Route::get('/all',  'index')
-            ->name('admin.all-products');
-        Route::get('/add-product', 'productForm')->name('add-product');
+            ->name('all');
+        Route::get('/add', 'productForm')->name('add');
         Route::get('/edit/{product}',  'editPrepare')
-            ->name('admin.product.editPrepare');
-        Route::post('/send', 'addProduct')->name('admin.send.product');
-        Route::put('/update', 'update')
-            ->name('admin.product.update');
+            ->name('editPrepare');
+        Route::post('/send', 'addProduct')->name('send');
+        Route::put('/update/{product}', 'update')
+            ->name('update');
         Route::delete("/delete/{product}",  'delete')
-            ->name('admin.product.delete');
+            ->name('delete');
     });
     
     

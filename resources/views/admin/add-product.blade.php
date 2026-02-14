@@ -9,7 +9,7 @@
         <h1 class="text-3xl font-extrabold text-indigo-700 mb-6 text-center">Unesite proizvod</h1>
 
         <!-- Form -->
-        <form method="POST" action="{{ route('admin.send.product') }}" class="space-y-5">
+        <form method="POST" action="{{ route('admin.product.send') }}" class="space-y-5">
             @if ($errors->any())
                 <p class="text-red-700">Greška: {{ $errors->first() }}</p>
             @endif

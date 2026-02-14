@@ -16,7 +16,7 @@
                     <p class="text-gray-700 mt-1 mb-1">{{ $c->message }}</p>
                 </div>
                 <div class="mt-3 p-1 flex justify-around">
-                    <form action="{{ route('admin.contact.delete', $c->id) }}" method="POST"
+                    <form action="{{ route('contact.delete', $c->id) }}" method="POST"
                         onsubmit="return confirm('Da li ste siurni da želite da obrišete ovaj kontakt?')"
                         >
                         @csrf
