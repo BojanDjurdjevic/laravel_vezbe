@@ -26,6 +26,13 @@ class ProductsController extends Controller
         return view('admin.products', compact('products'));
     }
 
+    public function getOne(ProductModel $product)
+    {
+        $myproduct = $product;
+
+        return view('product-view', compact('myproduct'));
+    }
+
     public function productForm()
     {
         return view('admin.add-product');
