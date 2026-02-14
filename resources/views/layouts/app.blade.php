@@ -29,6 +29,7 @@
 
             <!-- Page Content -->
             <main>
+                @include('components.session-message')
                 {{ $slot }}
             </main>
         </div>
