@@ -8,14 +8,7 @@ use App\Http\Controllers\ShopController;
 use App\Http\Middleware\AdminCheckMiddleware;
 use Illuminate\Support\Facades\Route;
 
-Route::get("/about", function() {
-    return view('about', [
-        'ime' => 'Bojan',
-        'prezime' => 'Đurđević'
-    ]);
-});
 
-Route::get('/', [HomeController::class, 'index']);
 
 //Rute od breeze:
 
@@ -29,29 +22,50 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
-Route::get("/contact", [ContactController::class, 'index']); 
+//--------------------------------
+
+Route::get("/about", function() {
+    return view('about', [
+        'ime' => 'Bojan',
+        'prezime' => 'Đurđević'
+    ]);
+});
+
+Route::get('/', [HomeController::class, 'index']);
+
+Route::controller(ContactController::class)->group(function() {
+    Route::get("/contact",  'index'); 
+    Route::post("/send-contact",'sendContact')->name('send.contact');
+});
 
 Route::get('/shop', [ShopController::class, 'index']);
 
-Route::post("/send-contact",[ ContactController::class, 'sendContact'])->name('send.contact');
-
 Route::middleware(["auth", AdminCheckMiddleware::class])->prefix('admin')->group(function() {
-    Route::get('/all-contacts', [ContactController::class, 'adminContacts']);
-    Route::delete("/delete-contact/{contact}", [ContactController::class, 'delete'])
-        ->name('admin.contact.delete');
-
-    Route::get('/all-products', [ProductsController::class, 'index'])
-        ->name('admin.all-products');
-    Route::get('/products', [ShopController::class, 'showProducts'])
-        ->name('admin.products');
-    Route::get('/add-product', [ShopController::class, 'productForm']);
-    Route::post('/send-product', [ProductsController::class, 'addProduct'])->name('admin.send.product');
-    Route::get('/edit-product/{product}', [ProductsController::class, 'editPrepare'])
-        ->name('admin.product.editPrepare');
-    Route::put('/update-product', [ProductsController::class, 'update'])
-        ->name('admin.product.update');
-    Route::delete("/delete-product/{product}", [ProductsController::class, 'delete'])
-        ->name('admin.product.delete');
+    Route::controller(ContactController::class)->group(function() {
+        Route::get('/all-contacts', 'adminContacts');
+        Route::delete("/delete-contact/{contact}", 'delete')
+            ->name('admin.contact.delete');
+    });
+    
+    Route::controller(ShopController::class)->group(function() {
+        Route::get('/products',  'showProducts')
+            ->name('admin.products');
+        Route::get('/add-product', 'productForm');
+    });
+    
+    Route::controller(ProductsController::class)->group(function() {
+        Route::get('/all-products',  'index')
+            ->name('admin.all-products');
+        Route::post('/send-product', 'addProduct')->name('admin.send.product');
+        Route::get('/edit-product/{product}',  'editPrepare')
+            ->name('admin.product.editPrepare');
+        Route::put('/update-product', 'update')
+            ->name('admin.product.update');
+        Route::delete("/delete-product/{product}",  'delete')
+            ->name('admin.product.delete');
+    });
+    
+    
 });
 
 require __DIR__.'/auth.php';
