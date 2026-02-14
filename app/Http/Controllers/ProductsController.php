@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\SaveProductRequest;
 use App\Models\ProductModel;
 use App\Repositories\ProductRepository;
 use Illuminate\Http\Request;
@@ -24,7 +25,7 @@ class ProductsController extends Controller
         return view('admin.products', compact('products'));
     }
 
-    public function addProduct(Request $request) 
+    public function addProduct(SaveProductRequest $request) 
     {
         $this->productRepo->create($request);
 
