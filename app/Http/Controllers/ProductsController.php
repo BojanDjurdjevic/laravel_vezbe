@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\SaveProductRequest;
+use App\Http\Requests\UpdateProductRequest;
 use App\Models\ProductModel;
 use App\Repositories\ProductRepository;
 use Illuminate\Http\Request;
@@ -19,9 +20,9 @@ class ProductsController extends Controller
     }
     public function index() 
     {
-        $products = $this->productRepo->fetchAll();
-
-        //$products = ProductModel::all();
+        $products = ProductModel::all();
+        //$products = $this->productRepo->fetchAll(); // probe radi
+        
         return view('admin.products', compact('products'));
     }
 
@@ -38,16 +39,8 @@ class ProductsController extends Controller
         return view('admin.edit-product', compact('product'));
     }
 
-    public function update(Request $request, ProductModel $product)
+    public function update(UpdateProductRequest $request, ProductModel $product)
     {
-        $validated = $request->validate([
-            'name' => 'required|string|min:3',
-            'description' => 'required|string|min:5',
-            'amount' => 'required|integer|min:0',
-            'price' => 'required|decimal:2|min:0.01',
-            'image' => 'nullable|image|mimes:jpg,jpeg,png,webp|max:2048',
-        ]);
-
         $this->productRepo->update($request, $product);
 
         return redirect()->route('admin.products');

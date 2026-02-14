@@ -58,4 +58,11 @@ class ProductRepository
 
         $singleProduct->delete();
     }
+
+    public function takeLatestProducts($num)
+    {
+        return $this->productModel->orderBy('id', 'desc')
+        ->take($num)
+        ->get();
+    }
 }
