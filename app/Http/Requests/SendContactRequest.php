@@ -14,7 +14,7 @@ class SendContactRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'email' => 'required|string',
+            'email' => 'required|mail',
             'subject' => 'required|string',
             'message' => 'required|string|min:5'
         ];
