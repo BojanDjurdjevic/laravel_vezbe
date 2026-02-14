@@ -41,7 +41,7 @@ Route::controller(ContactController::class)->group(function() {
 Route::get('/shop', [ShopController::class, 'index']);
 
 Route::controller(ProductsController::class)->prefix('product')->name('product.')->group(function() {
-    Route::get('/view/{product}', 'getOne')->name('view');
+    Route::get('/view/{product}', 'permalink')->name('view');
 });
 
 Route::middleware(["auth", AdminCheckMiddleware::class])->prefix('admin')->group(function() {
