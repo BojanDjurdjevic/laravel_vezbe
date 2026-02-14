@@ -4,15 +4,31 @@ namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use App\Models\ProductModel;
+use App\Repositories\ProductRepository;
 use Illuminate\Http\Request;
 use LDAP\Result;
 
 class ProductsController extends Controller
 {
+    private $productRepo;
+
+    public function __construct() 
+    {
+        $this->productRepo = new ProductRepository();
+    }
     public function index() 
     {
-        $products = ProductModel::all();
+        $products = $this->productRepo->fetchAll();
+
+        //$products = ProductModel::all();
         return view('admin.products', compact('products'));
+    }
+
+    public function addProduct(Request $request) 
+    {
+        $this->productRepo->create($request);
+
+        return redirect('/admin/products');
     }
 
     public function editPrepare(ProductModel $product)
@@ -31,28 +47,16 @@ class ProductsController extends Controller
             'image' => 'nullable|image|mimes:jpg,jpeg,png,webp|max:2048',
         ]);
 
-        //ovde je neki bug:
-        //$product->update($validated); // ne radi, izgleda samo na masivna ažuriranja, ako sam dobro skontao iz dokumentacije
-        // a možda neće i zato što ne vidi promenu slike
-
-        $product->name = $request->get('name');
-        $product->description = $request->get('description');
-        $product->amount = $request->get('amount');
-        $product->price = $request->get('price');
-        $product->save();
+        $this->productRepo->update($request, $product);
 
         return redirect()->route('admin.products');
     }
 
     public function delete($product)
     {
-        $singleProduct = ProductModel::where(['id' => $product])->first();
+        $product = $this->productRepo->getProductById($product);
 
-        if($singleProduct === null) {
-            die("Ovaj proizvod ne postoji");
-        }
-
-        $singleProduct->delete();
+        $product->delete();
 
         return redirect()->back();
     }

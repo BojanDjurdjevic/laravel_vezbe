@@ -45,7 +45,7 @@ Route::middleware(["auth", AdminCheckMiddleware::class])->prefix('admin')->group
     Route::get('/products', [ShopController::class, 'showProducts'])
         ->name('admin.products');
     Route::get('/add-product', [ShopController::class, 'productForm']);
-    Route::post('/send-product', [ShopController::class, 'addProduct'])->name('admin.send.product');
+    Route::post('/send-product', [ProductsController::class, 'addProduct'])->name('admin.send.product');
     Route::get('/edit-product/{product}', [ProductsController::class, 'editPrepare'])
         ->name('admin.product.editPrepare');
     Route::put('/update-product', [ProductsController::class, 'update'])
