@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
+use App\Models\ProductModel;
 use App\Repositories\ProductRepository;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
@@ -21,6 +22,7 @@ class ShoppingCartController extends Controller
 
         $cartProducts = [];
 
+        /* // Moj kod pre novog predavanja
         foreach($session as $p) {
             $prod = $this->prodRepo->getProductById($p['product_id']);
             $prod->ordered = $p['amount'];
@@ -29,6 +31,19 @@ class ShoppingCartController extends Controller
 
         return view('cart', [
             'cart' => $cartProducts
+        ]); */
+
+        // ISPRAVKA domaćeg sa predavanja -> Verujem da moj kod ima problem iako radi (više upita umesto jednog):
+
+        foreach($session as $cartItem) {
+            $cartProducts[] = $cartItem['product_id'];
+        }
+
+        $products = ProductModel::whereIn("id", $cartProducts)->get();
+
+        return view("cart", [
+            'cart' => Session::get('product'),
+            'products' => $products
         ]);
     }
     public function addToCart(Request $request) 
