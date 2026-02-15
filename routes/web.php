@@ -46,9 +46,16 @@ Route::controller(ProductsController::class)->prefix('product')->name('product.'
     Route::get('/view/{product}', 'permalink')->name('view');
 });
 
-Route::post('/cart/add',[ ShoppingCartController::class, 'addToCart'])->name('cart.add');
-Route::get('/cart', [ShoppingCartController::class, 'index'])->name('cart');
-Route::get('/cart/finish', [ShoppingCartController::class, 'finishOrder'])->name('cart.finish');
+Route::middleware("auth")->group(function() {
+    Route::controller(ShoppingCartController::class)->prefix('cart')->name('cart.')->group(function() {
+        Route::post('/add',[ ShoppingCartController::class, 'addToCart'])->name('add');
+        Route::get('/mycart', [ShoppingCartController::class, 'index'])->name('mycart');
+        Route::get('finish', [ShoppingCartController::class, 'finishOrder'])->name('finish');
+    });
+});
+
+
+
 
 Route::middleware(["auth", AdminCheckMiddleware::class])->prefix('admin')->group(function() {
     Route::controller(ContactController::class)->prefix('contact')->name('contact.')->group(function() {

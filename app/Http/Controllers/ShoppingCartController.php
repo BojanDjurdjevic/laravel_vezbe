@@ -9,6 +9,7 @@ use App\Models\ProductModel;
 use App\Repositories\ProductRepository;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Session;
 
 class ShoppingCartController extends Controller
@@ -23,9 +24,9 @@ class ShoppingCartController extends Controller
     {
         $session = Session::get('product');
 
-        if(count($session) < 1) return redirect('/shop');
+        if(!$session || count($session) < 1) return redirect('/shop');
 
-        $cartProducts = [];
+        //$cartProducts = [];
 
         /* // Moj kod pre novog predavanja
         foreach($session as $p) {
@@ -43,7 +44,7 @@ class ShoppingCartController extends Controller
         foreach($session as $cartItem) {
             $cartProducts[] = $cartItem['product_id'];
         } */
-        $cartProducts = array_column(Session::get('product'), 'product_id'); // radi isto što i petlja
+        //$cartProducts = array_column(Session::get('product'), 'product_id'); // radi isto što i petlja
 
         //$products = ProductModel::whereIn("id", $cartProducts)->get();
         
@@ -74,6 +75,10 @@ class ShoppingCartController extends Controller
     }
     public function addToCart(Request $request) 
     {  
+        $request->validate([
+            'id' => 'required|exists:products,id',
+            'amount' => 'required|min:1'
+        ]);
         $product = $this->prodRepo->getProductById($request->id);
         if($product->amount < $request->amount) {
             return redirect()->back()->with('error', "Nema dovoljno $product->name na stanju. Možete ubaciti do: $product->amount jedinica.");
@@ -83,8 +88,10 @@ class ShoppingCartController extends Controller
              'amount' => $request->amount
         ]);
 
-        return redirect()->route('cart');
+        return redirect()->route('cart.mycart');
     }
+
+    /*
 
     public function finishOrder()
     {
@@ -120,5 +127,70 @@ class ShoppingCartController extends Controller
         Session::remove('product');
 
         return view('thankYou');
+    } */
+
+    public function finishOrder()
+    {
+        $cart = Session::get('product');
+
+        if (!$cart) {
+            return redirect()->back()->with('error', 'Korpa je prazna.');
+        }
+
+        DB::beginTransaction();
+
+        try {
+            $productIds = collect($cart)->pluck('product_id');
+
+            $products = ProductModel::whereIn('id', $productIds)
+                ->get()
+                ->keyBy('id');
+
+            $totalCartPrice = 0;
+
+            foreach ($cart as $item) {
+
+                $product = $products[$item['product_id']];
+
+                if ($item['amount'] > $product->amount) {
+                    DB::rollBack();
+                    return redirect()->back()
+                        ->with('error', "Nema dovoljno proizvoda {$product->name} na stanju.");
+                }
+
+                $totalCartPrice += $item['amount'] * $product->price;
+            }
+
+            $order = Order::create([
+                'user_id' => Auth::id(),
+                'price' => $totalCartPrice
+            ]);
+
+            foreach ($cart as $item) {
+
+                $product = $products[$item['product_id']];
+
+                $product->decrement('amount', $item['amount']);
+
+                OrderItems::create([
+                    'order_id' => $order->id,
+                    'product_id' => $product->id,
+                    'order_amount' => $item['amount'],
+                    'price' => $product->price * $item['amount']
+                ]);
+            }
+
+            DB::commit();
+
+            Session::forget('product');
+
+            return view('thankYou');
+
+        } catch (\Exception $e) {
+
+            DB::rollBack();
+            return redirect()->back()->with('error', 'Greška pri poručivanju.');
+        }
     }
+
 }

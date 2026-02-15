@@ -6,10 +6,14 @@
             <p>Na stanju: {{ $product->amount }}</p>
             <p>Cena: {{ $product->price }}</p>
             <form method="POST" action="{{ route('cart.add') }}">
+                @if ($errors->any())
+                    <p class="text-red-600">{{ $errors->first }}</p>
+                @endif
                 @csrf
                 @method('POST')
                 <input type="hidden" name="id" value="{{ $product->id }}">
-                <input type="number" name="amount" placeholder="Unesite količinu">
+                <input type="number" min="1" name="amount" placeholder="Unesite količinu"
+                value="{{ old('amount', 1) }}">
                 <button type="submit"
                     class="bg-indigo-600 text-white rounded-lg m-2 p-2 hover:shadow-lg"
                 >Dodaj u korpu</button>
