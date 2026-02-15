@@ -3,9 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
+use App\Models\Order;
+use App\Models\OrderItems;
 use App\Models\ProductModel;
 use App\Repositories\ProductRepository;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
 
 class ShoppingCartController extends Controller
@@ -18,7 +21,9 @@ class ShoppingCartController extends Controller
     }
     public function index()
     {
-        //$session = Session::get('product');
+        $session = Session::get('product');
+
+        if(count($session) < 1) return redirect('/shop');
 
         $cartProducts = [];
 
@@ -46,7 +51,7 @@ class ShoppingCartController extends Controller
         // Četić optimizacija:
 
         $combined = [];
-        foreach (Session::get('product') as $item) {
+        foreach ($session as $item) {
             $product = ProductModel::firstWhere('id', $item['product_id']);
             if($product) {
                 $combined[] = [
@@ -79,5 +84,41 @@ class ShoppingCartController extends Controller
         ]);
 
         return redirect()->route('cart');
+    }
+
+    public function finishOrder()
+    {
+        $cart = Session::get('product');
+        $totalCartPrice = 0;
+
+        foreach ($cart as $item) {
+            $product = ProductModel::firstWhere('id', $item['product_id']);
+            $totalCartPrice += $item['amount'] * $product->price;
+
+            if($item['amount'] > $product->amount) {
+                return redirect()->back()->with('error', "Nema dovoljno proizvoda $product->name na stanju. Trenutno možete poručiti do $product->amount jedinica!");
+            }
+        }
+
+        $order = Order::create([
+            'user_id' => Auth::id(),
+            'price' => $totalCartPrice
+        ]);
+
+        foreach ($cart as $item) {
+            $product = ProductModel::firstWhere('id', $item['product_id']);
+            $product->amount -= $item['amount'];
+            
+            OrderItems::create([
+                'order_id' => $order->id,
+                'product_id' => $product->id,
+                'order_amount' => $item['amount'],
+                'price' => $product->price * $item['amount']
+            ]);
+        }
+
+        Session::remove('product');
+
+        return view('thankYou');
     }
 }
