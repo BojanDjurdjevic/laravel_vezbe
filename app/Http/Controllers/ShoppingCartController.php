@@ -18,7 +18,7 @@ class ShoppingCartController extends Controller
     }
     public function index()
     {
-        $session = Session::get('product');
+        //$session = Session::get('product');
 
         $cartProducts = [];
 
@@ -34,17 +34,38 @@ class ShoppingCartController extends Controller
         ]); */
 
         // ISPRAVKA domaćeg sa predavanja -> Verujem da moj kod ima problem iako radi (više upita umesto jednog):
-
+        /*
         foreach($session as $cartItem) {
             $cartProducts[] = $cartItem['product_id'];
+        } */
+        $cartProducts = array_column(Session::get('product'), 'product_id'); // radi isto što i petlja
+
+        //$products = ProductModel::whereIn("id", $cartProducts)->get();
+        
+
+        // Četić optimizacija:
+
+        $combined = [];
+        foreach (Session::get('product') as $item) {
+            $product = ProductModel::firstWhere('id', $item['product_id']);
+            if($product) {
+                $combined[] = [
+                    'name' => $product->name,
+                    'amount' => $item['amount'],
+                    'price' => $product->price,
+                    'total' => $item['amount'] * $product->price 
+                ];
+            }
         }
 
-        $products = ProductModel::whereIn("id", $cartProducts)->get();
-
+        return view("cart", [
+            'items' => $combined
+        ]);
+        /* // Stari kod
         return view("cart", [
             'cart' => Session::get('product'),
             'products' => $products
-        ]);
+        ]); */
     }
     public function addToCart(Request $request) 
     {  
